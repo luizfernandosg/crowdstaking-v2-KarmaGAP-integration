@@ -38,3 +38,5 @@ jobs:
           command: pnpm run test:e2e:ci
         env:
           CYPRESS_BASE_URL: http://localhost:3000
+          HARDHAT_ALCHEMY_ID: ${{ secrets.HARDHAT_ALCHEMY_ID }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
