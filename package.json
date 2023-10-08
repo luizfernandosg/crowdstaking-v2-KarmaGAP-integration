@@ -10,7 +10,8 @@
     "hardhat:node": "hardhat node",
     "hardhat:fund": "HARDHAT_NETWORK=localhost node scripts/fundWallet.js",
     "hardhat:dev": "concurrently \"pnpm run hardhat:node\" \"pnpm run hardhat:fund\"",
-    "test:e2e": "env-cmd -f .env pnpm synpress run --config supportFile='tests/e2e/support.ts'"
+    "test:e2e": "env-cmd -f .env pnpm synpress run --config supportFile='tests/e2e/support.ts'",
+    "test:e2e:ci": "pnpm synpress run --config supportFile='tests/e2e/support.ts'"
   },
   "dependencies": {
     "clsx": "^2.0.0",
