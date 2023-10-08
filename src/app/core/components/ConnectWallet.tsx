@@ -14,6 +14,7 @@ export default function ConnectWallet() {
           },
         })
       }
+      dataTest="connect-wallet-button"
     >
       Connect
     </Button>
