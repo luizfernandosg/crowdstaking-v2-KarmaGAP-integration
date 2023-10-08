@@ -12,11 +12,12 @@ import SwapReverse from "./SwapReverse";
 import ToPanel from "./ToPanel";
 import Transaction from "./Transaction";
 import { sanitizeInputValue } from "./swapUtils";
-import { useToast } from "@modules/core/hooks/useToast";
-import { useTransactionDisplay } from "@modules/core/hooks/useTransactionDisplay";
+import { useToast } from "@/app/core/hooks/useToast";
+import { useTransactionDisplay } from "@/app/core/hooks/useTransactionDisplay";
 import { useTokenBalance } from "../hooks/useTokenBalance";
 import { useTokenAllowance } from "../hooks/useTokenAllowance";
 import NativeBalance from "./NativeBalance";
+import { TUserConnected } from "@/app/core/hooks/useConnectedUser";
 
 interface ISwapState {
   mode: "BAKE" | "BURN";
@@ -31,27 +32,26 @@ const initialSwapState: ISwapState = {
 };
 
 interface IProps {
-  chainConfig: ChainConfiguration;
-  accountAddress: `0x${string}`;
+  user: TUserConnected;
 }
 
-function SwapUI({ chainConfig, accountAddress }: IProps) {
+function SwapUI({ user }: IProps) {
   const [swapState, setSwapState] = useState<ISwapState>(initialSwapState);
 
-  const { DAI, BREAD } = chainConfig;
+  const { DAI, BREAD } = user.config;
 
   const { state: transactionDisplay, dispatch: dispatchTransactionDisplay } =
     useTransactionDisplay();
   const { dispatch: dispatchToast } = useToast();
 
-  const breadBalanceReadings = useTokenBalance(BREAD.address, accountAddress);
-  const daiBalanceReadings = useTokenBalance(DAI.address, accountAddress);
+  const breadBalanceReadings = useTokenBalance(BREAD.address, user.address);
+  const daiBalanceReadings = useTokenBalance(DAI.address, user.address);
 
   const {
     value: daiAllowanceValue,
     status: daiAllowanceStatus,
     error: daiAllowanceError,
-  } = useTokenAllowance(DAI.address, accountAddress, BREAD.address);
+  } = useTokenAllowance(DAI.address, user.address, BREAD.address);
 
   const resetSwapState = () => {
     setSwapState(initialSwapState);
@@ -61,9 +61,9 @@ function SwapUI({ chainConfig, accountAddress }: IProps) {
     setSwapState((state) => ({ ...state, value: "" }));
   };
 
-  useEffect(() => {
-    resetSwapState();
-  }, [chainConfig.NETWORK_STRING]);
+  // useEffect(() => {
+  //   resetSwapState();
+  // }, [chainConfig.NETWORK_STRING]);
 
   useEffect(() => {
     if (daiAllowanceError) {
@@ -83,7 +83,7 @@ function SwapUI({ chainConfig, accountAddress }: IProps) {
         isContractApproved: parseFloat(daiAllowanceValue) > 0,
       }));
     }
-  }, [daiAllowanceStatus, daiAllowanceValue]);
+  }, [daiAllowanceStatus, daiAllowanceValue, daiAllowanceError, dispatchToast]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (transactionDisplay && transactionDisplay.status !== "PENDING") {
@@ -138,7 +138,7 @@ function SwapUI({ chainConfig, accountAddress }: IProps) {
         />
       </div>
       <div className="w-full px-4 pt-8 pb-12 text-xs text-neutral-300">
-        Matic Balance <NativeBalance address={accountAddress} />
+        Matic Balance <NativeBalance address={user.address} />
       </div>
       {daiAllowanceStatus === "loading" && <CheckingApproval />}
       {daiAllowanceStatus === "success" &&
@@ -153,19 +153,20 @@ function SwapUI({ chainConfig, accountAddress }: IProps) {
                     ? daiBalanceReadings
                     : breadBalanceReadings
                 }
-                accountAddress={accountAddress}
-                chainConfig={chainConfig}
+                accountAddress={user.address}
+                chainConfig={user.config}
                 clearInputValue={clearInputValue}
               />
             );
           }
-          return <ApproveContract chainConfig={chainConfig} />;
+          return <ApproveContract chainConfig={user.config} />;
         })()}
 
       {transactionDisplay && (
         <Transaction
           status={transactionDisplay.status}
           hash={transactionDisplay.hash}
+          user={user}
         />
       )}
     </>
