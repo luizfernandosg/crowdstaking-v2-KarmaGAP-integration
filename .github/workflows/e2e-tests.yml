@@ -34,6 +34,6 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           command: pnpm run hardhat:chain, pnpm run prod
-          wait-on: "http://localhost:3000, http://localhost:8545"
+          # wait-on: "http://localhost:3000, http://localhost:8545"
         env:
           CYPRESS_BASE_URL: http://localhost:3000
