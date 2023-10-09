@@ -10,8 +10,8 @@ describe("Connect Wallet", () => {
   it("wallet successfully connects", () => {
     cy.changeMetamaskNetwork("localhost");
     cy.contains("button:visible", "Connect").should("exist").click();
-    cy.contains("button:visible", "MetaMask").should("exist");
-    // cy.acceptMetamaskAccess();
+    cy.contains("button:visible", "MetaMask").should("exist").click();
+    cy.acceptMetamaskAccess();
   });
 });
 
