@@ -17,6 +17,7 @@ function WalletDisplay() {
   const { user } = useConnectedUser();
   const { disconnectAsync } = useDisconnect();
 
+  console.log({ user });
   return (
     <Container>
       {(() => {

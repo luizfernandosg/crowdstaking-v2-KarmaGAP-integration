@@ -58,7 +58,6 @@ export default function Connectors() {
                   disabled={!connector.ready}
                   key={connector.id}
                   onClick={() => connect({ connector })}
-                  data-test={`connector-button-${connector.name.toLowerCase()}`}
                   className="flex items-center gap-4 text-base font-bold opacity-60 hover:opacity-100"
                 >
                   <div className="rounded overflow-clip">

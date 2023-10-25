@@ -95,7 +95,6 @@ function ApproveContract({ chainConfig }: IProps) {
         onClick={handleApproveContract}
         variant="large"
         fullWidth={true}
-        dataTest="approve-contract-button"
         disabled={transactionIsPending(transactionDisplay)}
       >
         Approve Contract
