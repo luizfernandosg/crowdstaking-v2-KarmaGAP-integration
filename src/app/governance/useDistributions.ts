@@ -4,6 +4,7 @@ import { formatUnits } from "viem";
 import { projectsMeta } from "@/app/projectsMeta";
 import { Hex } from "viem";
 import { SUBGRAPH_QUERY_URL } from "@/constants";
+import { format } from "date-fns";
 
 interface YieldDistribution {
   id: string;
@@ -86,9 +87,10 @@ export function useDistributions(index: number = 0) {
     cycleDistribution = {
       cycleNumber: data?.yieldDistributeds.length - index,
       totalYield: Number(totalYield),
-      distributionDate: new Date(
-        Number(yieldDistribution.timestamp) * 1000
-      ).toLocaleDateString(),
+      distributionDate: format(
+        new Date(Number(yieldDistribution.timestamp) * 1000),
+        "MM/dd/yyyy"
+      ),
       projectDistributions,
     };
   }
