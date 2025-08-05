@@ -9,6 +9,7 @@ export type ProjectMeta = {
   links: {
     notion: string;
   };
+  karmaGAPId?: string; // Optional Karma GAP project identifier
 };
 
 export const projectsMeta: {
@@ -25,6 +26,7 @@ export const projectsMeta: {
       notion:
         "https://breadchain.notion.site/Labor-DAO-cbb5a4c374494cada57ad6b1aff21323",
     },
+    karmaGAPId: "sample-labor-dao-id", // Demo ID - replace with real Karma GAP project ID
   },
   "0x5405e2D4D12AAdB57579E780458c9a1151b560F1": {
     name: "Symbiota",
@@ -72,6 +74,7 @@ export const projectsMeta: {
       notion:
         "https://breadchain.notion.site/Breadchain-Core-208dcd81c6da49d1b1b00635f727d902",
     },
+    karmaGAPId: "sample-breadchain-core-id", // Demo ID - replace with real Karma GAP project ID
   },
   "0x6A148b997e6651237F2fCfc9E30330a6480519f0": {
     name: "Breadchain Treasury",
